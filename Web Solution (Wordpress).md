@@ -24,7 +24,14 @@ An EC2 Linux Server as a web server
 
 An EC2 Linux server as a database (DB) server   
 
-## Step 1: Prepare a Web Server and create 3 volumes in the same AZ as your Web Server EC2, each of 10GiB and attach all three volumes one by one to your web server EC2 instance.
+### Step 1: I Prepared a Web Server and created 3 volumes in the same AZ as Web Server EC2, each of 10GiB and I attached all the three volumes one by one to the web server EC2 instance I created. 
+
+![](2022-03-25-18-16-17.png)
+
+### Step 2: Next I used Lsblk command to inspect what block devices are attached to the web server.
+
+![](2022-03-25-18-18-43.png)
+
 
 
 
