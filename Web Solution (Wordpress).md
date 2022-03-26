@@ -128,3 +128,106 @@ Next: I Test the configuration and reload the daemon
 
 ![](2022-03-26-15-55-24.png)
 
+NOTE: THE SECOND STAGE. 
+
+## - I PREPARED THE DATABASE SERVER
+
+I Launch a second RedHat EC2 instance that will have a role – ‘DB Server’
+### But instead of apps-lv I created db-lv and mount it to /db directory instead of /var/www/html/.
+
+### Step 1: I installed Wordpress on web server EC2
+
+>I Updated the repository with sudo yum -y update
+
+I Installed wget, Apache and it’s dependencies
+
+> sudo yum -y install wget httpd php php-mysqlnd php-fpm php-json
+
+Start Apache
+
+> sudo systemctl enable httpd
+& sudo systemctl start httpd
+
+### The next phase, I installed PHP and it’s depemdencies.
+
+> Next I Restarted Apache with sudo systemctl restart httpd
+
+Download wordpress and copy wordpress to var/www/html
+
+  >mkdir wordpress
+
+  ![](2022-03-26-16-16-36.png)
+  
+  >cd   wordpress
+  
+  >sudo wget http://wordpress.org/latest.tar.gz
+  
+  >sudo tar xzvf latest.tar.gz
+  
+  >sudo rm -rf latest.tar.gz
+  
+  >cp wordpress/wp-config-sample.php wordpress/wp-config.php
+  
+  >cp -R wordpress /var/www/html/
+
+I Configured SELinux Policies
+
+  >sudo chown -R apache:apache /var/www/html/wordpress
+  
+  >sudo chcon -t httpd_sys_rw_content_t /var/www/html/wordpress -R
+  
+  >sudo setsebool -P httpd_can_network_connect=1
+
+
+### Step 2 — Install MySQL on your DB Server EC2
+
+> sudo yum update
+
+> sudo yum install mysql-server
+
+Verify that the service is up and running by using (sudo systemctl status mysqld)
+
+![](2022-03-26-16-10-59.png)
+
+The next stage is to:
+
+## I configured DB to work with wordpress
+
+>sudo mysql
+
+>CREATE DATABASE wordpress;
+
+>CREATE USER `myuser`@`172.31.36.181` IDENTIFIED BY 'Password000';
+
+>GRANT ALL ON wordpress.* TO 'myuser'@'172.31.36.181';
+
+>FLUSH PRIVILEGES;
+
+>SHOW DATABASES;
+
+![](2022-03-26-16-17-07.png)
+
+>exit
+
+### A. I configured wordpress to connect to remote database by open port 3306 on DB Server EC2
+
+### B. I installed MySQL CLIENT from my web server to my DB server by using 
+> sudo yum install mysql
+ 
+>udo mysql -u admin -p -h 172.31.43.47
+
+### C. I verify if you can successfully execute SHOW DATABASES
+
+### D. I Changed the permissions and configuration so Apache could use WordPress:
+
+### E. I Enabled TCP port 80 in Inbound Rules configuration for my Web Server EC2
+
+### F. I access from my browser the link to my WordPress
+
+(http://54.229.207.196/wordpress/)
+
+![](2022-03-26-16-25-36.png)
+
+![](2022-03-26-16-26-21.png)
+
+
