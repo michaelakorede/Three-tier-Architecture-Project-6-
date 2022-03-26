@@ -114,3 +114,17 @@ I Restored log files back into /var/log directory
 
 ## NOTE: I Updated /etc/fstab file so that the mount configuration will persist after restart of the server.
 
+> sudo blkid
+
+> I edited /etc/fstab file; with sudo vi /etc/fstab and Update /etc/fstab in this format using UUID and I removed the leading and ending quotes.
+
+Next: I Test the configuration and reload the daemon
+
+ >udo mount -a
+ 
+ >sudo systemctl daemon-reload
+
+>I verify the setup by running df -h,
+
+![](2022-03-26-15-55-24.png)
+
