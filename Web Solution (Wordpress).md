@@ -216,7 +216,7 @@ The next stage is to:
  
 >udo mysql -u admin -p -h 172.31.43.47
 
-### C. I verify if you can successfully execute SHOW DATABASES
+### C. I verify if I can successfully execute SHOW DATABASES
 
 ### D. I Changed the permissions and configuration so Apache could use WordPress:
 
